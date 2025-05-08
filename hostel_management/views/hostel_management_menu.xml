@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="hostel_menu_root" name="Hostel"/>
+    <menuitem id="room_submenu" name="Room" parent="hostel_menu_root" action="room_action"/>
+    <menuitem id="students_submenu" name="Student" parent="hostel_menu_root" action="student_action"/>
+    <menuitem id="facilities_submenu" name="Facilities" parent="hostel_menu_root" action="facilities_action"/>
+    <menuitem id="leave_submenu" name="Leave Request" parent="hostel_menu_root" action="leave_action"/>
+</odoo>
