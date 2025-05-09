@@ -46,15 +46,26 @@ class RoomManagement(models.Model):
 
     def monthly_invoice(self):
         rent_product = self.env.ref('hostel_management.product_rent')
-        for student in self.student_ids:
-            invoice = self.env['account.move'].create({
-                'move_type': 'out_invoice',
-                'partner_id': student.partner_id.id,
-                'student_id': student.id,
-                'invoice_line_ids': [(0, 0, {
-                    'product_id': rent_product.id,
-                    'quantity': 1,
-                    'price_unit': self.rent,
-                    'name': 'Monthly Room Rent'
-                })]
-            })
+        created_invoices = self.env['account.move']
+        for room in self:
+            for student in room.student_ids:
+                if not student.partner_id:
+                    continue
+                invoice = self.env['account.move'].create({
+                    'move_type': 'out_invoice',
+                    'partner_id': student.partner_id.id,
+                    'student_id': student.id,
+                    'invoice_line_ids': [(0, 0, {
+                        'product_id': rent_product.id,
+                        'quantity': 1,
+                        'price_unit': room.total_rent,
+                    })]
+                })
+                created_invoices += invoice
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Invoices',
+            'res_model': 'account.move',
+            'view_mode': 'list,form',
+            'domain': [('id', 'in', created_invoices.ids)],
+        }
