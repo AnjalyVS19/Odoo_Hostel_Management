@@ -21,7 +21,7 @@ class Student(models.Model):
     city = fields.Char()
     state_id = fields.Many2one('res.country.state', string="State")
     country_id = fields.Many2one('res.country', string="Country")
-    sid = fields.Char("Student Id", default="New", copy=False, readonly=True, tracking=True)
+    sid = fields.Char("Student Id", default="New", copy=False, readonly=True)
     company_id = fields.Many2one('res.company', store=True, copy=False,
                                  string="Company",
                                  default=lambda self: self.env.user.company_id.id)
@@ -31,6 +31,7 @@ class Student(models.Model):
     partner_id = fields.Many2one('res.partner', string='Partner', ondelete='restrict', auto_join=True, readonly=True,)
     partner = fields.Char(related='partner_id.name', string="Partner", store=True, readonly=True)
     invoice_count = fields.Integer(compute="_compute_invoice_count", string="Invoice Count")
+
 
     @api.onchange('dob')
     def _onchange_birth_date(self):
@@ -103,25 +104,47 @@ class Student(models.Model):
         for student in self:
             leave_requests = self.env['leave.request'].search([('name', '=', student.id)])
             leave_requests.unlink()
+            room = student.room_id
+            if room:
+                room.bed_booked -= 1
+                remaining_beds = room.bed - room.bed_booked
+                if remaining_beds == 0:
+                    room.state = 'empty'
+                elif remaining_beds < room.bed:
+                    room.state = 'partial'
+                else:
+                    room.state = 'empty'
+                student.room_id = False
         return super().unlink()
 
-
     def _compute_invoice_count(self):
-        for rec in self:
-            rec.invoice_count = self.env['account.move'].search_count([
-                ('student_id', '=', rec.id),
+        for student in self:
+            student.invoice_count = self.env['account.move'].search_count([
+                ('student_id', '=', student.id),
                 ('move_type', '=', 'out_invoice')
             ])
 
     def action_view_student_invoices(self):
-        return {
-            'name': 'Invoices',
-            'type': 'ir.actions.act_window',
-            'res_model': 'account.move',
-            'view_mode': 'list,form',
-            'domain': [('student_id', '=', self.id),('move_type','=','out_invoice')],
-            'context': {'default_student_id': self.id}
-        }
+        invoices = self.env['account.move'].search([
+            ('student_id', '=', self.id),
+            ('move_type', '=', 'out_invoice')
+        ])
+        if len(invoices) == 1:
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Invoice',
+                'res_model': 'account.move',
+                'res_id': invoices.id,
+                'view_mode': 'form',
+            }
+        else:
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Invoices',
+                'res_model': 'account.move',
+                'domain': [('student_id', '=', self.id), ('move_type', '=', 'out_invoice')],
+                'view_mode': 'list,form',
+            }
 
     def action_create_monthly_invoice(self):
         product = self.env.ref('hostel_management.product_rent')
@@ -139,6 +162,7 @@ class Student(models.Model):
                     'name': 'Monthly Rent'
                 })]
             })
+            student._compute_invoice_count()
             return {
                 'name': 'Invoice',
                 'view_mode': 'list,form',
