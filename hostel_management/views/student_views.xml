@@ -18,22 +18,21 @@
         </field>
     </record>
 
-
     <record id="form_student" model="ir.ui.view">
         <field name="name">form.student</field>
         <field name="model">student</field>
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="alot_button" class="oe_highlight" string="Alot Room" type="object" help="Alot room for the student."/>
-                    <button name="vacate_button" class="oe_highlight" string="Vacate" type="object" />
+                    <button name="alot_button" class="oe_highlight" string="Alot Room" type="object" invisible="room_id == True"/>
+                    <button name="vacate_button" class="oe_highlight" string="Vacate" type="object" invisible="room_id == False"/>
                 </header>
                 <sheet>
-                <div class="oe_button_box" name="button_box">
-                    <button type="object" name="action_view_student_invoices" class="oe_stat_button" icon="fa-file-invoice-dollar">
-                        <field name="invoice_count" widget="statinfo" string="Invoice"/>
-                    </button>
-                </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_view_student_invoices" class="oe_stat_button" icon="fa-edit" invisible="invoice_count == 0">
+                            <field name="invoice_count" widget="statinfo" string="Invoice"/>
+                        </button>
+                    </div>
                     <header>
                         <field name="student_image" widget="image" class="oe_avatar"/>
                     </header>
