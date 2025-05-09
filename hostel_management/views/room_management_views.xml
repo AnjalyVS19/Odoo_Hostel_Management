@@ -40,7 +40,7 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name = "monthly_invoice" string = "Monthly Invoice" type = "object" class ="btn-primary"/>
+                    <button name = "monthly_invoice" string = "Monthly Invoice" type = "object" class ="btn-primary" invisible="state in ('empty')"/>
                     <field name="state" widget="statusbar" class="oe_highlight" statusbar_visible="empty,partial,full" default="empty"/>
                 </header>
                 <sheet>
