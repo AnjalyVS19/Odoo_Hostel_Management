@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="cleaning_action" model="ir.actions.act_window">
+        <field name="name">Cleaning Service</field>
+        <field name="res_model">cleaning.service</field>
+        <field name="view_mode">list,form</field>
+   </record>
+
+    <record id="list_cleaning" model="ir.ui.view">
+        <field name="name">list.cleaning</field>
+        <field name="model">cleaning.service</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="room_id"/>
+                <field name="start_time"/>
+                <field name="cleaning_staff_id"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="form_cleaning" model="ir.ui.view">
+        <field name="name">form.cleaning</field>
+        <field name="model">cleaning.service</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name = "assign_staff" string = "Assign" type = "object" class ="btn-primary" invisible="state in ('assigned,done')"/>
+                    <button name = "complete_cleaning" string = "Complete" type = "object" class ="btn-primary" invisible="state in ('new,done')"/>
+                    <field name="state" widget="statusbar" class="oe_highlight" statusbar_visible="new,assigned,done" default="new"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="room_id"/>
+                         <field name="start_time"/>
+                        <field name="cleaning_staff_id"/>
+                        <field name="company_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

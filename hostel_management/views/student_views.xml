@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="search_cleaning" model="ir.ui.view">
+        <field name="name">search.student</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Archived" name="default_filter" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="student_action" model="ir.actions.act_window">
+        <field name="name">Student</field>
+        <field name="res_model">student</field>
+        <field name="view_mode">list,form</field>
+   </record>
+
+    <record id="list_student" model="ir.ui.view">
+        <field name="name">list.student</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sid"/>
+                <field name="name"/>
+                <field name="room_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="form_student" model="ir.ui.view">
+        <field name="name">form.student</field>
+        <field name="model">student</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="alot_button" class="oe_highlight" string="Alot Room" type="object" invisible="room_id == True"/>
+                    <button name="vacate_button" class="oe_highlight" string="Vacate" type="object" invisible="room_id == False" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_view_student_invoices" class="oe_stat_button" icon="fa-edit" invisible="invoice_count == 0">
+                            <field name="invoice_count" widget="statinfo" string="Invoice"/>
+                        </button>
+                    </div>
+                    <header>
+                        <field name="student_image" widget="image" class="oe_avatar"/>
+                    </header>
+                    <group>
+                        <group col="1">
+                            <field name="sid"/>
+                            <field name="name"/>
+                            <field name="room_id"/>
+                            <field name="dob"/>
+                            <field name="age" compute='_onchange_birth_date'/>
+                            <field name="invoice_status" readonly="1"/>
+                        </group>
+                        <group col="2">
+                            <field name="bed" invisible="1"/>
+                            <field name="invoice_count" invisible="1"/>
+                            <field name="email"/>
+                            <field name="receive"/>
+                            <field name="company_id"/>
+                            <field name="partner"/>
+                            <field name="user"/>
+                            <field name="monthly_amount"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Contact Address">
+                            <group>
+                                <group col="1">
+                                    <field name="street" placeholder="Street..." />
+                                    <field name="street2" placeholder="Street 2..." />
+                                    <field name="city" placeholder="City..." />
+                                </group>
+                                <group col="2">
+                                    <field name="state_id" placeholder="State..." />
+                                    <field name="zip" placeholder="ZIP..." />
+                                    <field name="country_id" placeholder="Country..." />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

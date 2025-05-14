@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="facilities_action" model="ir.actions.act_window">
+        <field name="name">Facilities</field>
+        <field name="res_model">facilities</field>
+        <field name="view_mode">list,form</field>
+   </record>
+
+    <record id="list_facilities" model="ir.ui.view">
+        <field name="name">list.facilities</field>
+        <field name="model">facilities</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="charge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="form_facilities" model="ir.ui.view">
+        <field name="name">form.facilities</field>
+        <field name="model">facilities</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="charge"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
