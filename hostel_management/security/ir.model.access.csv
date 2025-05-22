@@ -1,8 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_models_room_user,access.model.room.user,model_room_management,base.group_user,1,1,1,1
-access_models_student_user,access.model.student.user,model_student,base.group_user,1,1,1,1
-access_models_facilities_user,access.models.facilities.user,model_facilities,base.group_user,1,1,1,1
-access_models_leave_user,access.models.leave.user,model_leave_request,base.group_user,1,1,1,1
-access_models_account_move_user,access.models.account.move.user,model_account_move,base.group_user,1,1,1,1
-access_models_account_move_line_user,access.models.account.move.line.user,model_account_move_line,base.group_user,1,1,1,1
-access_models_cleaning_service_user,access.models.cleaning.service.user,model_cleaning_service,base.group_user,1,1,1,1
