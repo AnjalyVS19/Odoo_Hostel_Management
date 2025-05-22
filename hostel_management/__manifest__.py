@@ -1,0 +1,27 @@
+{
+    'name': "Hostel Management",
+    'version': '5.0',
+    'summary': "Manage all activities in a hostel",
+    'sequence': 1,
+    'application':True,
+    'depends': ['base', 'mail', 'account', 'product', 'base_automation'],
+    'data' : [
+        'security/user_groups.xml',
+        'security/ir_rule_security.xml',
+        'security/ir.model.access.csv',
+        'security/record_rules.xml',
+        'data/ir_actions_server_data.xml',
+        'data/base_automation_data.xml',
+        'data/facilities_data.xml',
+        'data/ir_cron_data.xml',
+        'data/product_product_data.xml',
+        'data/ir_sequence_data.xml',
+        'views/room_management_views.xml',
+        'views/student_views.xml',
+        'views/facilities_view.xml',
+        'views/leave_request_views.xml',
+        'views/invoice_views.xml',
+        'views/cleaning_service_views.xml',
+        'views/hostel_management_menu.xml',
+    ]
+}
