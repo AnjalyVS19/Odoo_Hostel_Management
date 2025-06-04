@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="student_form_view" name="Student Form">
+        <t t-call="website.layout">
+            <div class="oe_structure">
+                <div class="container">
+                    <center><h3>Student Details</h3></center>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
