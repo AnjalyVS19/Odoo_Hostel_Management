@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="student_information" model="website.menu">
+        <field name="name">Student</field>
+        <field name="url">/student_information</field>
+        <field name="parent_id" ref="website.main_menu"/>
+    </record>
+
+    <template id="student_registration_template" name="Student Registration Page">
+        <t t-call="website.layout">
+            <div class="container mt-4">
+                <h2><center>Student Registration</center></h2>
+                <t t-if="error_message">
+                  <div id="email_error" class="alert alert-danger">
+                    <t t-esc="error_message"/>
+                  </div>
+                </t>
+                <form action="/student/submit" method="post">
+                     <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="name" required="required" class="form-control"/>
+                    </div>
+                    <br></br>
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <input type="date" name="dob" required="required" class="form-control"/>
+                    </div>
+                    <br></br>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" required="required" class="form-control"/>
+
+                    </div>
+                    <br></br>
+                    <div class="form-group">
+                        <label>Room</label>
+                        <select name="room_id" required="required" class="form-control">
+                            <t t-foreach="rooms" t-as="room">
+                                <option t-att-value="room.id">
+                                    <t t-esc="room.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                    <br></br>
+                    <br></br>
+                    <button type="submit" class="btn btn-primary mt-2">Register</button>
+                    <br></br>
+                </form>
+            </div>
+        </t>
+    </template>
+
+    <template id="registration_success" name="Registration Success">
+        <t t-call="website.layout">
+            <div class="container mt-5">
+                <h2>Thank you, Your registration was successful.</h2>
+            </div>
+        </t>
+    </template>
+</odoo>

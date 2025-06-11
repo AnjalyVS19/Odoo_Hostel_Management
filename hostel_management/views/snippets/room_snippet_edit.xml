@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="room_snippet" inherit_id="website.snippets" name="Room Snippet Banner">
+        <xpath expr="//snippets[@id='snippet_groups']" position="inside">
+            <t t-snippet="hostel_management.room_snippet_template"/>
+        </xpath>
+    </template>
+</odoo>

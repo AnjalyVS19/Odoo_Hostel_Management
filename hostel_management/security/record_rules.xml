@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="student_own_rule" model="ir.rule">
+        <field name="name">Student: Own Record Only</field>
+        <field name="model_id" ref="model_student"/>
+        <field name="groups" eval="[(4, ref('hostel_management.group_student'))]"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="student_room_rule" model="ir.rule">
+        <field name="name">Student: Own Room Only</field>
+        <field name="model_id" ref="model_room_management"/>
+        <field name="groups" eval="[(4, ref('hostel_management.group_student'))]"/>
+        <field name="domain_force">[('student_ids.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="student_leave_rule" model="ir.rule">
+        <field name="name">Student: Own Leave Requests</field>
+        <field name="model_id" ref="model_leave_request"/>
+        <field name="groups" eval="[(4, ref('hostel_management.group_student'))]"/>
+        <field name="domain_force">[('name_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="staff_cleaning_rule" model="ir.rule">
+        <field name="name">Staff: Own or New Cleaning Requests</field>
+        <field name="model_id" ref="model_cleaning_service"/>
+        <field name="groups" eval="[(4, ref('hostel_management.group_staff'))]"/>
+        <field name="domain_force">['|', ('cleaning_staff_id', '=', user.id), ('cleaning_staff_id', '=', False)]</field>
+    </record>
+
+</odoo>

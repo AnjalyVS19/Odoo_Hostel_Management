@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="room_snippet_template" name="Room">
+        <section class="container my-5">
+            <t t-set="rooms" t-value="request.env['room.management'].sudo().search([], order='id desc')"/>
+            <t t-set="chunks" t-value="[rooms[i:i+4] for i in range(0, len(rooms), 4)]"/>
+            <t t-if="chunks">
+                <div id="roomCarousel" class="carousel slide">
+                    <div class="carousel-inner">
+                        <t t-foreach="chunks" t-as="chunk" t-foreach-index="i">
+                            <div t-attf-class="carousel-item #{'active' if i == 0 else ''}">
+                                <div class="row">
+                                    <t t-foreach="chunk" t-as="room">
+                                        <div class="col-md-3 mb-4">
+                                            <div class="card h-100 shadow-sm">
+                                                <t t-if="room.room_image">
+                                                    <img t-att-src="'/web/image?model=room.management&amp;id=%s&amp;field=room_image' % room.id"
+                                                         class="card-img-top" alt="Room Image" style="height : 200px; object-fit: cover;"/>
+                                                </t>
+                                                <div class="card-body">
+                                                    <h5 class="card-title"><t t-esc="room.name"/></h5>
+                                                    <a t-att-href="'/room/%s' % room.id" class="btn btn-primary btn-sm">View Details</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#roomCarousel" data-bs-slide="prev" style="position:absolute; top:50%; left:-110px; transform:translateY(-50%); z-index:2;">
+                        <span class="oi oi-chevron-left me-md-n4 rounded-pill p-3 bg-700"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#roomCarousel" data-bs-slide="next" style="position:absolute; top:50%; right:-110px; transform:translateY(-50%); z-index:2;">
+                        <span class="oi oi-chevron-right me-md-n4 rounded-pill p-3 bg-700"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </t>
+            <t t-else="">
+                <p class="text-center text-danger">No rooms available.</p>
+            </t>
+        </section>
+    </template>
+</odoo>
+

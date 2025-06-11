@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="room_detail_template" name="Room Detail View">
+        <t t-call="website.layout">
+            <div class="container mt-5">
+                <h2><t t-esc="room.name"/></h2>
+                <t t-if="room.room_image">
+                    <img t-att-src="'/web/image?model=room.management&amp;id=%s&amp;field=room_image' % room.id"
+                         alt="Room Image" />
+                </t>
+                <br></br><br></br><br></br>
+                <p><strong>Status:</strong> <t t-esc="room_state_display"/></p>
+                <p><strong>Room Type:</strong> <t t-esc="room_type_display"/></p>
+                <p><strong>Beds:</strong> <t t-esc="room.bed"/></p>
+                <p><strong>Facilities:</strong>
+                    <t t-if="room.facilities_ids">
+                        <t t-foreach="room.facilities_ids" t-as="facility">
+                            <t t-esc="facility.name"/>
+                        </t>
+                    </t>
+                    <t t-else=""> </t>
+                </p>
+                <p><strong>Rent:</strong> <t t-esc="room.rent"/></p>
+                <p><strong>Total Rent:</strong> <t t-esc="room.total_rent"/></p>
+                <a href="/" class="btn btn-secondary mt-3">Back</a>
+            </div>
+        </t>
+    </template>
+</odoo>
